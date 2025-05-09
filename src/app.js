@@ -18,6 +18,7 @@ const extractData = async (location) => {
       temp: day.temp,
       high: day.tempmax,
       low: day.tempmin,
+      icon: day.icon,
       condition: day.conditions,
       hours: day.hours,
       chanceofrain: day.precipprob,
@@ -30,7 +31,7 @@ const extractData = async (location) => {
 };
 
 // Display today's weather on the webpage
-const displayWeather = async (data) => {
+const displayWeather = (data) => {
   const display = document.querySelector(".display-weather");
 
   // Clear existing content to prevent duplicates
@@ -57,7 +58,7 @@ const displayWeather = async (data) => {
 };
 
 // Display today's weather forecast in 3 hour increments starting at 6 am and ending at 9 pm
-const todayForecast = async (data) => {
+const todayForecast = (data) => {
   const convertTimeFormat = (timeStr) => {
     const parsedTime = parse(timeStr, "HH:mm:ss", new Date());
     return format(parsedTime, "h:mm a");
@@ -85,8 +86,47 @@ const todayForecast = async (data) => {
   }
 };
 
+// Display today's air condition
+const airCondition = (data) => {
+  const air = document.querySelector(".air-conditions");
+
+  const realFeel = document.createElement("div");
+  const wind = document.createElement("div");
+  const chanceOfRain = document.createElement("div");
+  const uvIndex = document.createElement("div");
+
+  // helper to make a <p>
+  const makeP = (text) => {
+    const p = document.createElement("p");
+    p.textContent = text;
+    return p;
+  };
+
+  // Real Feel
+  realFeel.appendChild(makeP("Real Feel"));
+  realFeel.appendChild(makeP(`${data.temp[0].feelslike}°`));
+
+  // Wind Speed
+  wind.appendChild(makeP("Wind Speed"));
+  wind.appendChild(makeP(`${data.temp[0].wind} mph`));
+
+  // Chance of Rain
+  chanceOfRain.appendChild(makeP("Chance of Rain"));
+  chanceOfRain.appendChild(makeP(`${data.temp[0].chanceofrain}%`));
+
+  // UV Index
+  uvIndex.appendChild(makeP("UV Index"));
+  uvIndex.appendChild(makeP(`${data.temp[0].uvindex}`));
+
+  air.appendChild(realFeel);
+  air.appendChild(wind);
+  air.appendChild(chanceOfRain);
+  air.appendChild(uvIndex);
+};
+
 (async () => {
   const data = await extractData("London");
-  await displayWeather(data);
-  await todayForecast(data);
+  displayWeather(data);
+  todayForecast(data);
+  airCondition(data);
 })();
