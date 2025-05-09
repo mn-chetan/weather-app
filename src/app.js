@@ -87,12 +87,12 @@ const todayForecast = (data) => {
 
   // Clear existing content to prevent duplicates
   today.innerHTML = "";
-  
+
   // Add heading
   const heading = document.createElement("h2");
   heading.textContent = "Today's Forecast";
   today.appendChild(heading);
-  
+
   // Create container for forecast boxes
   const forecastContainer = document.createElement("div");
   forecastContainer.className = "forecast-container";
@@ -100,16 +100,16 @@ const todayForecast = (data) => {
   for (let i = 6; i <= 21; i += 3) {
     const forecastBox = document.createElement("div");
     forecastBox.className = "forecast-box";
-    
+
     const time = document.createElement("div");
     time.textContent = convertTimeFormat(data.temp[0].hours[i].datetime);
-    
+
     const icon = document.createElement("img");
     icon.src = `../icons/weather/${data.temp[0].hours[i].icon}.svg`;
     icon.alt = data.temp[0].hours[i].conditions;
     icon.style.width = "2.5rem";
     icon.style.height = "2.5rem";
-    
+
     const temp = document.createElement("div");
     temp.textContent = `${data.temp[0].hours[i].temp}°`;
 
@@ -119,7 +119,7 @@ const todayForecast = (data) => {
 
     forecastContainer.appendChild(forecastBox);
   }
-  
+
   today.appendChild(forecastContainer);
 };
 
@@ -129,12 +129,12 @@ const airCondition = (data) => {
 
   // Clear existing content to prevent duplicates
   air.innerHTML = "";
-  
+
   // Add heading
   const heading = document.createElement("h2");
   heading.textContent = "Air Conditions";
   air.appendChild(heading);
-  
+
   // Create grid container
   const conditionsGrid = document.createElement("div");
   conditionsGrid.className = "conditions-grid";
@@ -158,7 +158,10 @@ const airCondition = (data) => {
   const wind = makeConditionItem("Wind Speed", `${data.temp[0].wind} mph`);
 
   // Chance of Rain
-  const chanceOfRain = makeConditionItem("Chance of Rain", `${data.temp[0].chanceofrain}%`);
+  const chanceOfRain = makeConditionItem(
+    "Chance of Rain",
+    `${data.temp[0].chanceofrain}%`
+  );
 
   // UV Index
   const uvIndex = makeConditionItem("UV Index", `${data.temp[0].uvindex}`);
@@ -171,9 +174,29 @@ const airCondition = (data) => {
   air.appendChild(conditionsGrid);
 };
 
+// Take location input from user
+const formInput = () => {
+  const form = document.querySelector("form");
+  const input = document.querySelector("input");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const city = input.value;
+    input.value = ""; // Clear the input
+
+    // Fetch and display data after form submission
+    const data = await extractData(city);
+    displayWeather(data);
+    todayForecast(data);
+    airCondition(data);
+  });
+};
+
 (async () => {
   const data = await extractData("London");
   displayWeather(data);
   todayForecast(data);
   airCondition(data);
+
+  formInput();
 })();
