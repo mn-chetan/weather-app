@@ -210,4 +210,63 @@ form input::placeholder {
 /* Weekly forecast sidebar */
 aside {
   grid-area: week;
+  background-color: var(--card-bg); /* Added background for consistency */
+  padding: 1.5rem; /* Added padding */
+  border-radius: 8px; /* Added border-radius */
+  color: var(--white-dark); /* Added text color */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between each day's forecast */
+}
+
+.day-forecast-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem; /* Space below each item */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
+}
+
+.day-forecast-item:last-child {
+  border-bottom: none; /* Remove border for the last item */
+  padding-bottom: 0;
+}
+
+.day-name {
+  flex-basis: 25%; /* Allocate space for day name */
+  font-weight: 500;
+}
+
+.day-icon-condition {
+  display: flex;
+  flex-direction: column; /* Stack icon and condition name vertically */
+  align-items: center;
+  gap: 0.25rem;
+  flex-basis: 50%; /* Allocate space for icon and condition */
+}
+
+.day-icon-condition img {
+  width: 2.5rem; /* Adjust icon size */
+  height: 2.5rem;
+}
+
+.day-condition-name {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-align: center;
+}
+
+.day-temp {
+  flex-basis: 25%; /* Allocate space for temperature */
+  text-align: right; /* Align temperature to the right */
+  font-size: 0.9rem;
+}
+
+.temp-high {
+  font-weight: 600; /* Make high temperature bolder */
+  color: var(--white-light);
+}
+
+.temp-low {
+  opacity: 0.7;
 }

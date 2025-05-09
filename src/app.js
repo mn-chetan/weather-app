@@ -189,7 +189,63 @@ const formInput = () => {
     displayWeather(data);
     todayForecast(data);
     airCondition(data);
+    weekForecast(data);
   });
+};
+
+// Display week's forecast
+const weekForecast = (data) => {
+  const week = document.querySelector("aside");
+
+  // Clear existing content to prevent duplicates when a new search is made
+  week.innerHTML = "";
+
+  const dateToDayOfWeek = (dateStr) => {
+    const date = new Date(dateStr);
+    return format(date, "EEE");
+  };
+
+  for (let i = 0; i < 7; i++) {
+    const dayForecastItem = document.createElement("div");
+    dayForecastItem.classList.add("day-forecast-item");
+
+    const day = document.createElement("p");
+    day.classList.add("day-name");
+    const centerDiv = document.createElement("div");
+    centerDiv.classList.add("day-icon-condition");
+    const icon = document.createElement("img");
+    const name = document.createElement("p");
+    name.classList.add("day-condition-name");
+
+    const tempContainer = document.createElement("p");
+    tempContainer.classList.add("day-temp");
+    const tempHigh = document.createElement("span");
+    tempHigh.classList.add("temp-high");
+    const tempLow = document.createElement("span");
+    tempLow.classList.add("temp-low");
+
+    if (i === 0) {
+      day.textContent = "Today";
+    } else {
+      day.textContent = dateToDayOfWeek(data.temp[i].date);
+    }
+
+    icon.src = `../icons/weather/${data.temp[i].icon}.svg`;
+    name.textContent = data.temp[i].condition;
+    centerDiv.appendChild(icon);
+    centerDiv.appendChild(name);
+
+    tempHigh.textContent = `${data.temp[i].high}°`;
+    tempLow.textContent = ` / ${data.temp[i].low}°`;
+    tempContainer.appendChild(tempHigh);
+    tempContainer.appendChild(tempLow);
+
+    dayForecastItem.appendChild(day);
+    dayForecastItem.appendChild(centerDiv);
+    dayForecastItem.appendChild(tempContainer);
+
+    week.appendChild(dayForecastItem);
+  }
 };
 
 (async () => {
@@ -197,6 +253,7 @@ const formInput = () => {
   displayWeather(data);
   todayForecast(data);
   airCondition(data);
+  weekForecast(data);
 
   formInput();
 })();
