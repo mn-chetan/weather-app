@@ -37,6 +37,9 @@ const displayWeather = (data) => {
   // Clear existing content to prevent duplicates
   display.innerHTML = "";
 
+  const leftPanel = document.createElement("div");
+  leftPanel.className = "left-panel"; // Optional: for styling
+
   const infoContainer = document.createElement("div");
   infoContainer.className = "weather-info";
 
@@ -49,12 +52,21 @@ const displayWeather = (data) => {
   infoContainer.appendChild(cityName);
   infoContainer.appendChild(rainChance);
 
-  display.appendChild(infoContainer);
+  leftPanel.appendChild(infoContainer);
 
   const temp = document.createElement("div");
-  temp.textContent = data.temp[0].temp;
+  temp.textContent = `${data.temp[0].temp}°`;
+  leftPanel.appendChild(temp);
 
-  display.appendChild(temp);
+  const rightPanel = document.createElement("div");
+  rightPanel.className = "right-panel";
+  const logo = document.createElement("img");
+  logo.src = `../icons/weather/${data.temp[0].icon}.svg`;
+  logo.alt = "Weather Icon";
+  rightPanel.appendChild(logo);
+
+  display.appendChild(leftPanel);
+  display.appendChild(rightPanel);
 };
 
 // Display today's weather forecast in 3 hour increments starting at 6 am and ending at 9 pm

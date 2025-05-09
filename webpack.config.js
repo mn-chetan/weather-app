@@ -1,24 +1,41 @@
+// webpack.config.js
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-  entry: "./src/app.js", // Your entry file
+  // Entry file
+  entry: "./src/app.js",
+
+  // Output bundle
   output: {
-    filename: "bundle.js", // The output filename
-    path: path.resolve(__dirname, "dist"), // Output directory
-    clean: true, // Clean the dist folder before each build
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
-  mode: "development", // Set mode to 'development'
+
+  mode: "development",
+
+  // Development server
   devServer: {
-    static: "./dist", // Serve content from the dist folder
-    open: true, // Open the browser after the server starts
-    hot: true, // Enable Hot Module Replacement
-    watchFiles: ["src/**/*", "dist/**/*"], // Watch files for changes
+    static: "./dist",
+    open: true,
+    hot: true,
+    watchFiles: ["src/**/*", "dist/**/*"],
   },
+
   plugins: [
+    // Generates index.html from template
     new HtmlWebpackPlugin({
-      template: "./src/index.html", // Your HTML template located in src
-      filename: "index.html", // Name of the generated file in dist
+      template: "./src/index.html",
+      filename: "index.html",
+    }),
+    // Copies static assets
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: "icons", to: "icons" },
+        { from: "src/style.css", to: "style.css" },
+      ],
     }),
   ],
 };
