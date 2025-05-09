@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <link rel="stylesheet" href="./style.css" />
+  <script defer src="/weather-app/bundle.js"></script></head>
+  <body>
+    <nav class="card">
+      <div class="logo">
+        <img src="./icons/navbar/logo.svg" alt="" />
+      </div>
+
+      <div class="nav-links">
+        <div class="link">
+          <img src="./icons/navbar/temperature.svg" alt="" />
+          <p>Weather</p>
+        </div>
+
+        <div class="link">
+          <img src="./icons/navbar/cities.svg" alt="" />
+          <p>Cities</p>
+        </div>
+
+        <div class="link">
+          <img src="./icons/navbar/map.svg" alt="" />
+          <p>Map</p>
+        </div>
+
+        <div class="link">
+          <img src="./icons/navbar/settings.svg" alt="" />
+          <p>Settings</p>
+        </div>
+      </div>
+    </nav>
+
+    <form class="card">
+      <input type="text" placeholder="Search for cities" />
+    </form>
+
+    <section class="card display-weather"></section>
+
+    <section class="card todays-forecast"></section>
+
+    <section class="card air-conditions"></section>
+
+    <aside class="card"></aside>
+
+    <script src="bundle.js"></script>
+  </body>
+</html>
