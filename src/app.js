@@ -1,7 +1,14 @@
 import { parse, format } from "date-fns";
+import mockWeatherData from "./mockWeatherData.json";
+
+const USE_MOCK_DATA = true;
 
 // Fetch weather data from Visual Crossing API
 const getWeather = async (location) => {
+  if (USE_MOCK_DATA) {
+    return mockWeatherData;
+  }
+
   const response = await fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=us&key=TTW6K2XJNXHZFYN5AVK566E4Q&contentType=json`
   );
@@ -38,7 +45,7 @@ const displayWeather = (data) => {
   display.innerHTML = "";
 
   const leftPanel = document.createElement("div");
-  leftPanel.className = "left-panel"; // Optional: for styling
+  leftPanel.className = "left-panel";
 
   const infoContainer = document.createElement("div");
   infoContainer.className = "weather-info";
@@ -52,10 +59,10 @@ const displayWeather = (data) => {
   infoContainer.appendChild(cityName);
   infoContainer.appendChild(rainChance);
 
-  leftPanel.appendChild(infoContainer);
-
   const temp = document.createElement("div");
   temp.textContent = `${data.temp[0].temp}°`;
+
+  leftPanel.appendChild(infoContainer);
   leftPanel.appendChild(temp);
 
   const rightPanel = document.createElement("div");
@@ -80,60 +87,88 @@ const todayForecast = (data) => {
 
   // Clear existing content to prevent duplicates
   today.innerHTML = "";
+  
+  // Add heading
+  const heading = document.createElement("h2");
+  heading.textContent = "Today's Forecast";
+  today.appendChild(heading);
+  
+  // Create container for forecast boxes
+  const forecastContainer = document.createElement("div");
+  forecastContainer.className = "forecast-container";
 
-  for (let i = 6; i <= 22; i += 3) {
+  for (let i = 6; i <= 21; i += 3) {
     const forecastBox = document.createElement("div");
+    forecastBox.className = "forecast-box";
+    
     const time = document.createElement("div");
-    const icon = document.createElement("img");
-    const temp = document.createElement("div");
-
     time.textContent = convertTimeFormat(data.temp[0].hours[i].datetime);
-    temp.textContent = data.temp[0].hours[i].temp;
+    
+    const icon = document.createElement("img");
+    icon.src = `../icons/weather/${data.temp[0].hours[i].icon}.svg`;
+    icon.alt = data.temp[0].hours[i].conditions;
+    icon.style.width = "2.5rem";
+    icon.style.height = "2.5rem";
+    
+    const temp = document.createElement("div");
+    temp.textContent = `${data.temp[0].hours[i].temp}°`;
 
     forecastBox.appendChild(time);
     forecastBox.appendChild(icon);
     forecastBox.appendChild(temp);
 
-    today.appendChild(forecastBox);
+    forecastContainer.appendChild(forecastBox);
   }
+  
+  today.appendChild(forecastContainer);
 };
 
 // Display today's air condition
 const airCondition = (data) => {
   const air = document.querySelector(".air-conditions");
 
-  const realFeel = document.createElement("div");
-  const wind = document.createElement("div");
-  const chanceOfRain = document.createElement("div");
-  const uvIndex = document.createElement("div");
+  // Clear existing content to prevent duplicates
+  air.innerHTML = "";
+  
+  // Add heading
+  const heading = document.createElement("h2");
+  heading.textContent = "Air Conditions";
+  air.appendChild(heading);
+  
+  // Create grid container
+  const conditionsGrid = document.createElement("div");
+  conditionsGrid.className = "conditions-grid";
 
-  // helper to make a <p>
-  const makeP = (text) => {
-    const p = document.createElement("p");
-    p.textContent = text;
-    return p;
+  // helper to make a condition item
+  const makeConditionItem = (label, value) => {
+    const div = document.createElement("div");
+    const labelP = document.createElement("p");
+    labelP.textContent = label;
+    const valueP = document.createElement("p");
+    valueP.textContent = value;
+    div.appendChild(labelP);
+    div.appendChild(valueP);
+    return div;
   };
 
   // Real Feel
-  realFeel.appendChild(makeP("Real Feel"));
-  realFeel.appendChild(makeP(`${data.temp[0].feelslike}°`));
+  const realFeel = makeConditionItem("Real Feel", `${data.temp[0].feelslike}°`);
 
   // Wind Speed
-  wind.appendChild(makeP("Wind Speed"));
-  wind.appendChild(makeP(`${data.temp[0].wind} mph`));
+  const wind = makeConditionItem("Wind Speed", `${data.temp[0].wind} mph`);
 
   // Chance of Rain
-  chanceOfRain.appendChild(makeP("Chance of Rain"));
-  chanceOfRain.appendChild(makeP(`${data.temp[0].chanceofrain}%`));
+  const chanceOfRain = makeConditionItem("Chance of Rain", `${data.temp[0].chanceofrain}%`);
 
   // UV Index
-  uvIndex.appendChild(makeP("UV Index"));
-  uvIndex.appendChild(makeP(`${data.temp[0].uvindex}`));
+  const uvIndex = makeConditionItem("UV Index", `${data.temp[0].uvindex}`);
 
-  air.appendChild(realFeel);
-  air.appendChild(wind);
-  air.appendChild(chanceOfRain);
-  air.appendChild(uvIndex);
+  conditionsGrid.appendChild(realFeel);
+  conditionsGrid.appendChild(wind);
+  conditionsGrid.appendChild(chanceOfRain);
+  conditionsGrid.appendChild(uvIndex);
+
+  air.appendChild(conditionsGrid);
 };
 
 (async () => {
