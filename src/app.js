@@ -1,7 +1,7 @@
 import { parse, format } from "date-fns";
 import mockWeatherData from "./mockWeatherData.json";
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 // Fetch weather data from Visual Crossing API
 const getWeather = async (location) => {

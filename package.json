@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -17,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/mn-chetan/weather-app/issues"
   },
-  "homepage": "https://github.com/mn-chetan/weather-app#readme",
+  "homepage": "https://mn-chetan.github.io/weather-app",
   "description": "",
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
