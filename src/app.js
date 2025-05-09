@@ -68,7 +68,7 @@ const displayWeather = (data) => {
   const rightPanel = document.createElement("div");
   rightPanel.className = "right-panel";
   const logo = document.createElement("img");
-  logo.src = `../icons/weather/${data.temp[0].icon}.svg`;
+  logo.src = `icons/weather/${data.temp[0].icon}.svg`;
   logo.alt = "Weather Icon";
   rightPanel.appendChild(logo);
 
@@ -105,7 +105,7 @@ const todayForecast = (data) => {
     time.textContent = convertTimeFormat(data.temp[0].hours[i].datetime);
 
     const icon = document.createElement("img");
-    icon.src = `../icons/weather/${data.temp[0].hours[i].icon}.svg`;
+    icon.src = `icons/weather/${data.temp[0].hours[i].icon}.svg`;
     icon.alt = data.temp[0].hours[i].conditions;
     icon.style.width = "2.5rem";
     icon.style.height = "2.5rem";
@@ -230,7 +230,7 @@ const weekForecast = (data) => {
       day.textContent = dateToDayOfWeek(data.temp[i].date);
     }
 
-    icon.src = `../icons/weather/${data.temp[i].icon}.svg`;
+    icon.src = `icons/weather/${data.temp[i].icon}.svg`;
     name.textContent = data.temp[i].condition;
     centerDiv.appendChild(icon);
     centerDiv.appendChild(name);
