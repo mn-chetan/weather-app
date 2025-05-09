@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 1rem;
+  background-color: #121212;
+  width: 100vw;
+  height: 100vh;
+  /* Page Layout */
+  display: grid;
+  grid-template-columns: auto 1fr 1fr; /* Added example column sizing for better layout */
+  grid-template-rows: auto 1fr auto auto; /* Adjusted for typical content flow */
+  gap: 1rem; /* Added gap between grid items */
+  grid-template-areas:
+    "nav form ."
+    "nav weather week"
+    "nav forecast week"
+    "nav air week";
+}
+
+:root {
+  --white-light: rgba(255, 255, 255, 0.9);
+  --white-dark: rgba(255, 255, 255, 0.7);
+  --card-bg: #1e1e1e;
+}
+
+/* General card styling */
+.card {
+  background-color: var(--card-bg);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* Navbar styling */
+nav {
+  color: var(--white-light);
+  width: fit-content;
+  grid-area: nav;
+}
+
+nav img {
+  width: 2rem;
+  height: 2rem;
+}
+
+form {
+  grid-area: form;
+  color: var(--white-dark);
+}
+
+.display-weather {
+  grid-area: weather;
+  color: var(--white-dark);
+}
+
+.todays-forecast {
+  grid-area: forecast;
+  color: var(--white-dark);
+}
+
+.air-conditions {
+  grid-area: air;
+  color: var(--white-dark);
+}
+
+/* Week Forecast */
+aside {
+  grid-area: week;
+}
