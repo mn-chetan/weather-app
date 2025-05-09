@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <nav>
+    <nav class="card">
       <div class="logo">
         <img src="./icons/navbar/logo.svg" alt="" />
       </div>
@@ -35,6 +35,20 @@
       </div>
     </nav>
 
-    <script src="./app.js"></script>
+    <main class="card">
+      <form>
+        <input type="text" placeholder="Search for cities" />
+      </form>
+
+      <section class="display-weather"></section>
+
+      <section class="todays-forecast"></section>
+
+      <section class="air-conditions"></section>
+    </main>
+
+    <aside class="card"></aside>
+
+    <script src="bundle.js"></script>
   </body>
 </html>
